@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('gifts', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('url')->nullable();
+            $table->integer('price')->default(0);
+            $table->string('details')->nullable();
             $table->timestamps();
         });
     }
