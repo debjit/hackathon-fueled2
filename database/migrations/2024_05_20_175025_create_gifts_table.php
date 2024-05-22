@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('url')->nullable();
             $table->integer('price')->default(0);
             $table->string('details')->nullable();
+            $table->boolean('is_completed')->nullable();
             $table->timestamps();
         });
     }
