@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Enums\UserType;
 use App\Filament\Resources\UserResource\Pages;
+use App\Filament\Resources\UserResource\Widgets\UsersOverview;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
@@ -99,7 +100,7 @@ class UserResource extends Resource
                             ->label('Occupency')
                             ->default(fn (User $record) => $record->guestDetails?->occupency),
                     ])->slideOver()
-                    ->visible(fn (User $record) => $record->role->value == 0 && ! $record->is_admin),
+                    ->visible(fn (User $record) => $record->role->value == 0 && !$record->is_admin),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -123,4 +124,25 @@ class UserResource extends Resource
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            UsersOverview::class,
+            // UserResource::getWidgets()
+        ];
+    }
+    // public static function getWidgets(): array
+    // {
+    //     return [
+    //         // Widgets\AccountWidget::class,
+    //         \App\Filament\Resources\UserResource\Widgets\UsersOverview::class,
+
+    //     ];
+    // }
+    // public static function getWidgets(): array
+    // {
+    //     return [
+    //         UsersOverview::class,
+    //     ];
+    // }
 }
