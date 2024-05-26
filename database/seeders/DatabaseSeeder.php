@@ -15,9 +15,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        $adminRole = Role::factory()->create(['name' => 'admin']);
-        $vendorRole = Role::factory()->create(['name' => 'vendor']);
-        $guestRole = Role::factory()->create(['name' => 'guest']);
+        $adminRole = Role::factory()->create(['name' => Role::ADMIN]);
+        $vendorRole = Role::factory()->create(['name' => Role::VENDOR]);
+        $guestRole = Role::factory()->create(['name' => Role::GUEST]);
 
         User::factory()->create([
             'name' => 'Admin',
