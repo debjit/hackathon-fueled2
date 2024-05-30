@@ -21,7 +21,7 @@ class EventResource extends Resource
 
     protected static ?string $navigationGroup = 'Event Management';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
 
     public static function form(Form $form): Form
     {
@@ -61,6 +61,7 @@ class EventResource extends Resource
                 Filter::make('date')
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
@@ -83,6 +84,7 @@ class EventResource extends Resource
             'index' => Pages\ListEvents::route('/'),
             'create' => Pages\CreateEvent::route('/create'),
             'edit' => Pages\EditEvent::route('/{record}/edit'),
+            'view' => Pages\ViewEvent::route('/{record}'),
         ];
     }
 
