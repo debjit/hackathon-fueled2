@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class);
             $table->string('room_details');
+            $table->tinyInteger('occupency')->default(1);
             $table->timestamps();
         });
     }
