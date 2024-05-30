@@ -54,6 +54,9 @@ class EventResource extends Resource
                 TextColumn::make('tables_count')
                     ->counts('tables')
                     ->label('Tables'),
+                TextColumn::make('tables_sum_seats')
+                    ->sum('tables', 'seats')
+                    ->label('Occuoency'),
                 TextColumn::make('date')
                 // ->displayFormat('d/m/Y')
                 ,
