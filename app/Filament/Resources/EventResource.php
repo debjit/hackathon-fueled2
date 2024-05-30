@@ -12,8 +12,6 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class EventResource extends Resource
 {
@@ -43,7 +41,7 @@ class EventResource extends Resource
 
                 Forms\Components\TimePicker::make('end_time')
                     ->prefix('Ends')
-                    ->native(false)
+                    ->native(false),
                 // ->displayFormat('d/m/Y')
             ]);
     }
@@ -53,12 +51,16 @@ class EventResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name'),
+                TextColumn::make('tables_count')
+                    ->counts('tables')
+                    ->label('Tables'),
                 TextColumn::make('date')
                 // ->displayFormat('d/m/Y')
                 ,
+
             ])
             ->filters([
-                Filter::make('date')
+                Filter::make('date'),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -74,7 +76,7 @@ class EventResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\TablesRelationManager::class,
         ];
     }
 
@@ -91,6 +93,7 @@ class EventResource extends Resource
     protected function mutateFormDataBeforeSave(array $data): array
     {
         logger($data);
+
         return $data;
     }
 }

@@ -45,7 +45,7 @@ class UserDetailResource extends Resource
                 Tables\Columns\TextColumn::make('room_details')
                     ->label('Room Details')
                     ->searchable(),
-                    Tables\Columns\TextColumn::make('occupency')
+                Tables\Columns\TextColumn::make('occupency')
                     ->label('Occupency'),
             ])
             ->filters([
