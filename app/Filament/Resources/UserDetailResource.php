@@ -30,6 +30,9 @@ class UserDetailResource extends Resource
                 Forms\Components\TextInput::make('room_details')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('occupency')
+                    ->required()
+                    ->maxLength(255),
             ]);
     }
 
@@ -42,6 +45,8 @@ class UserDetailResource extends Resource
                 Tables\Columns\TextColumn::make('room_details')
                     ->label('Room Details')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('occupency')
+                    ->label('Occupency'),
             ])
             ->filters([
                 //

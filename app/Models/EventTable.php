@@ -6,18 +6,25 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class UserDetail extends Model
+class EventTable extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'event_id',
         'user_id',
-        'room_details',
-        'occupency',
+        'name',
+        'seats',
+        'details',
     ];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function event(): BelongsTo
+    {
+        return $this->belongsTo(Event::class);
     }
 }
