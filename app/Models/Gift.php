@@ -12,5 +12,6 @@ class Gift extends Model
 
     protected $casts = [
         'price' => MoneyCast::class,
+        'is_completed' => 'boolean',
     ];
 }

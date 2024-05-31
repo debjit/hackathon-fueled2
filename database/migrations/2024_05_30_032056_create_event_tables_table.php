@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Event;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,13 +13,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('gifts', function (Blueprint $table) {
+        Schema::create('event_tables', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(Event::class);
+            $table->foreignIdFor(User::class);
             $table->string('name');
-            $table->string('url')->nullable();
-            $table->integer('price')->default(0);
+            $table->tinyInteger('seats')->default(1);
             $table->string('details')->nullable();
-            $table->boolean('is_completed')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('gifts');
+        Schema::dropIfExists('event_tables');
     }
 };
