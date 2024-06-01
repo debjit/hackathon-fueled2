@@ -34,7 +34,7 @@ RUN chmod -R 755 /var/www/html/storage /var/www/html/vendor /var/www/html/public
 EXPOSE 80
 
 
-CMD [ "/usr/local/bin/start" ]
+# CMD [ "/usr/local/bin/start" ]
 
 
 
