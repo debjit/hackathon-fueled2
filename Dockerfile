@@ -20,19 +20,18 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN composer install --no-dev --optimize-autoloader
 
-ENV APACHE_DOCUMENT_ROOT /var/www/html/public
-
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
-RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
 
-EXPOSE 80
 
 RUN a2enmod rewrite headers deflate
 
 COPY start.sh /usr/local/bin/start
 
 RUN chmod a+x /usr/local/bin/start
+
+RUN chmod -R 755 /var/www/html/storage /var/www/html/vendor /var/www/html/public 
+
+EXPOSE 80
 
 
 CMD [ "/usr/local/bin/start" ]
