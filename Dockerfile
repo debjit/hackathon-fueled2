@@ -8,6 +8,10 @@ WORKDIR /var/www/html/
 
 COPY ./ /var/www/html
 
+RUN mkdir storage/frameworks/views -p 
+RUN mkdir storage/frameworks/sessions -p
+RUN mkdir storage/logs -p 
+
 RUN rm -rf tests/
 
 RUN chown -R www-data:www-data /var/www/html
@@ -21,13 +25,15 @@ ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
+COPY start.sh /start.sh
+
+RUN chmod +x start.sh
 
 EXPOSE 80
 
 RUN a2enmod rewrite
 
-USER www-data
+CMD ['start.sh']
 
-RUN mkdir storage/frameworks/views -p 
-RUN mkdir storage/frameworks/sessions -p
-RUN mkdir storage/logs -p 
+
+
