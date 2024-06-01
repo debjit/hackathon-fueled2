@@ -32,7 +32,7 @@ WORKDIR /var/www/html
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Install dependencies
-RUN composer install --no-dev --prefer-dist --no-scripts --no-autoloader
+RUN composer install --no-dev
 
 
 
