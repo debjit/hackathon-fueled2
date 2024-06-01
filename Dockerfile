@@ -19,6 +19,9 @@ RUN docker-php-ext-install pdo_mysql
 RUN apt-get install -y libpq-dev
 RUN docker-php-ext-install pgsql
 
+# Change ownership of our applications
+RUN chown -R www-data:www-data /var/www/html
+
 # Copy Laravel application
 COPY . /var/www/html
 
@@ -32,13 +35,15 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN composer install --no-dev --prefer-dist --no-scripts --no-autoloader
 
 
-# Change ownership of our applications
-RUN chown -R www-data:www-data /var/www/html
+
 
 
 # Expose port 8000
 EXPOSE 80
 
 # Adjusting Apache configurations
-RUN a2enmod rewrite
+RUN a2enmod rewrite headers deflate
+
 COPY /docker/apache-config.conf /etc/apache2/sites-available/000-default.conf
+
+USER www-data
