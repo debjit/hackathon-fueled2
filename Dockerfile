@@ -8,9 +8,10 @@ WORKDIR /var/www/html/
 
 COPY ./ /var/www/html
 
-RUN mkdir storage/frameworks/views -p
-RUN mkdir storage/frameworks/sessions -p
-RUN mkdir storage/logs -p
+# Ensure storage and bootstrap/cache directories are writable
+RUN mkdir -p storage/frameworks/views storage/frameworks/sessions storage/logs \
+    && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
 RUN rm -rf tests/
 
@@ -22,19 +23,12 @@ RUN composer install --no-dev --optimize-autoloader
 
 COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
 
-
 RUN a2enmod rewrite headers deflate
 
 COPY start.sh /usr/local/bin/start
 
 RUN chmod a+x /usr/local/bin/start
 
-RUN chmod -R 755 /var/www/html/storage /var/www/html/vendor /var/www/html/public
-
 EXPOSE 80
 
-
-# CMD [ "/usr/local/bin/start" ]
-
-
-
+CMD [ "/usr/local/bin/start" ]
