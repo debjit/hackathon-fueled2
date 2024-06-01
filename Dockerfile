@@ -2,18 +2,18 @@ FROM php:8.2-apache
 
 # Install necessary libraries
 RUN apt-get update && apt-get install -y \
+    zip unzip \
     libonig-dev \
     libzip-dev \
     libicu-dev
 
 # Install PHP extensions
 RUN docker-php-ext-install \
-    mbstring \
     zip \
     intl
 
 # Install MySQL
-RUN docker-php-ext-install mysqli pdo_mysql
+RUN docker-php-ext-install pdo_mysql
 
 # Install PostgreSQL
 RUN apt-get install -y libpq-dev
@@ -32,16 +32,11 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN composer install --no-dev --prefer-dist --no-scripts --no-autoloader
 
 # RUN composer install
-RUN composer upgrade
+RUN composer upgrade.
 
 # Change ownership of our applications
 RUN chown -R www-data:www-data /var/www/html
 
-RUN docker-php-ext-install mbstring
-
-# COPY .env.example .env
-# RUN php artisan key:generate
-RUN php artisan storage:link
 
 # Expose port 8000
 EXPOSE 80
