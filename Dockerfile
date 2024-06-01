@@ -32,6 +32,8 @@ RUN a2enmod rewrite headers deflate
 
 COPY start.sh /usr/local/bin/start
 
+RUN chmod a+x /usr/local/bin/start
+
 
 CMD [ "/usr/local/bin/start" ]
 
