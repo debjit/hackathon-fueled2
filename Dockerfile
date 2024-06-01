@@ -1,49 +1,26 @@
-FROM php:8.2-apache
+FROM php:8.3-apache as prod
 
-# Install necessary libraries
-RUN apt-get update && apt-get install -y \
-    zip unzip \
-    libonig-dev \
-    libzip-dev \
-    libicu-dev
+RUN apt update && apt install curl zip unzip libzip-dev libicu-dev libpq-dev -y
 
-# Install PHP extensions
-RUN docker-php-ext-install \
-    zip \
-    intl
+RUN docker-php-ext-install pdo_pgsql exif zip bcmath intl
 
-# Install MySQL
-RUN docker-php-ext-install pdo_mysql
+WORKDIR /var/www/html/
 
-# Install PostgreSQL
-RUN apt-get install -y libpq-dev
-RUN docker-php-ext-install pgsql
+COPY ./ /var/www/html
 
-# Change ownership of our applications
+RUN rm -rf tests/
+
 RUN chown -R www-data:www-data /var/www/html
 
-# Copy Laravel application
-COPY . /var/www/html
-
-# Set working directory
-WORKDIR /var/www/html
-
-# Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Install dependencies
-RUN composer install --no-dev
+RUN composer install --no-dev --optimize-autoloader
 
+ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-
-
-# Expose port 8000
-EXPOSE 80
-
-# Adjusting Apache configurations
-RUN a2enmod rewrite headers deflate
-
-COPY /docker/apache-config.conf /etc/apache2/sites-available/000-default.conf
+RUN a2enmod rewrite
 
 USER www-data
