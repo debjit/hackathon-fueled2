@@ -33,7 +33,7 @@ EXPOSE 80
 
 RUN a2enmod rewrite
 
-CMD ['start.sh']
+CMD ['/start.sh']
 
 
 
