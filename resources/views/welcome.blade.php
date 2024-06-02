@@ -1076,7 +1076,8 @@
                                 <h2 class="text-xl font-semibold text-black dark:text-white">Details: </h2>
                                 <p class="mt-4 text-sm/relaxed">
                                     This server is slow.<br>
-                                    Be careful not to put any sensitive information.
+                                    Be careful not to put any sensitive information.<br>
+                                    No gate is configured. Every user is super-admin.
                                 </p>
                             </div>
 
